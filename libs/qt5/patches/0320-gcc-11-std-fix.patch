@@ -1,0 +1,27 @@
+diff -Naur a/qtbase/src/corelib/global/qfloat16.h b/qtbase/src/corelib/global/qfloat16.h
+--- a/qtbase/src/corelib/global/qfloat16.h	2022-01-08 02:02:37.788088800 +0100
++++ b/qtbase/src/corelib/global/qfloat16.h	2022-01-08 02:01:53.887219900 +0100
+@@ -43,6 +43,10 @@
+ 
+ #include <QtCore/qglobal.h>
+ #include <QtCore/qmetatype.h>
++
++#include <stdexcept>
++#include <limits>
++
+ #include <string.h>
+ 
+ #if defined(QT_COMPILER_SUPPORTS_F16C) && defined(__AVX2__) && !defined(__F16C__)
+diff -Naur a/qtbase/src/corelib/text/qbytearray.h b/qtbase/src/corelib/text/qbytearray.h
+--- a/qtbase/src/corelib/text/qbytearray.h	2022-01-08 02:02:38.709130500 +0100
++++ b/qtbase/src/corelib/text/qbytearray.h	2022-01-08 02:01:52.929472700 +0100
+@@ -52,6 +52,9 @@
+ #include <string>
+ #include <iterator>
+ 
++#include <stdexcept>
++#include <limits>
++
+ #ifdef truncate
+ #error qbytearray.h must be included before any header file that defines truncate
+ #endif
