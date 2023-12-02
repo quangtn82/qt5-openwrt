@@ -1,5 +1,5 @@
 # qt5-openwrt
-QT 5.12.12 for Openwrt 21.02.3 with modbus & serialport
+QT 5.15.11 for Openwrt 21.03.5 with modbus & serialport
 =========================
 
 Installation instructions
