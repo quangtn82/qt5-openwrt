@@ -1,7 +1,7 @@
 # qt5-openwrt
-QT 5.15.11 for Openwrt 22.03.5 with modbus & serialport
+QT 5.15.11 for Openwrt 22.03.5 with modbus & serialport & mqtt
 =========================
-Chú ý sửa Build/Configure để thêm module
+Chú ý: sửa Build/Configure để thêm module
 Installation instructions
 -------------------------
 
