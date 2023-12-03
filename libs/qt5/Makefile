@@ -10,15 +10,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt5
-#PKG_VERSION:=5.12
-#PKG_RELEASE:=12
-#PKG_MD5SUM:=88e7a1c9952bf5732751c794716c6a55
-
 PKG_VERSION:=5.15
 PKG_RELEASE:=11
 PKG_MD5SUM:=37b79a3764b0c9157fa3686df209b25a
 
-#PKG_SOURCE:=qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
 PKG_SOURCE:=qt-everywhere-opensource-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
 PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
 PKG_BUILD_DIR=$(BUILD_DIR)/qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE)
@@ -98,6 +93,12 @@ define Package/qt5-serialbus
   DEPENDS+=+qt5-core +qt5-network +qt5-serialport
 endef
 
+define Package/qt5-mqtt
+  $(call Package/qt5/Default)
+  TITLE+=mqtt
+  DEPENDS+=+qt5-core +qt5-network
+endef
+
 define Package/qt5-xmlpatterns
   $(call Package/qt5/Default)
   TITLE+=xmlpatterns
@@ -116,6 +117,7 @@ define Build/Configure
 	$(CP) ./files/fonts/* $(PKG_BUILD_DIR)/qtbase/lib/fonts/
 	$(CP) ./files/qplatformdefs.h $(PKG_BUILD_DIR)/qtbase/mkspecs/linux-openwrt-g++/qplatformdefs.h
 	$(CP) ./files/qmake.conf $(PKG_BUILD_DIR)/qtbase/mkspecs/linux-openwrt-g++/qmake.conf
+	$(CP) ./files/qtmqtt $(PKG_BUILD_DIR)/
 	$(SED) 's@$$$$(TARGET_CROSS)@$(TARGET_CROSS)@g' $(PKG_BUILD_DIR)/qtbase/mkspecs/linux-openwrt-g++/qmake.conf
 	( cd $(PKG_BUILD_DIR) ; \
 		TARGET_CC="$(TARGET_CROSS)gcc" \
@@ -269,6 +271,13 @@ define Package/qt5-serialbus/install
 	$(CP) $(PKG_BUILD_DIR)/qtserialbus/lib/libQt5SerialBus.la $(1)/usr/lib/
 endef
 
+define Package/qt5-mqtt/install
+	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtmqtt/lib/libQt5Mqtt.so* $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtmqtt/lib/libQt5Mqtt.prl $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtmqtt/lib/libQt5Mqtt.la $(1)/usr/lib/
+endef
+
 define Package/qt5-xmlpatterns/install
 	$(INSTALL_DIR) $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtxmlpatterns/lib/libQt5XmlPatterns.so* $(1)/usr/lib/
@@ -291,5 +300,7 @@ $(eval $(call BuildPackage,qt5-sql))
 $(eval $(call BuildPackage,qt5-xml))
 $(eval $(call BuildPackage,qt5-serialport))
 $(eval $(call BuildPackage,qt5-serialbus))
+$(eval $(call BuildPackage,qt5-mqtt))
 $(eval $(call BuildPackage,qt5-xmlpatterns))
 $(eval $(call BuildPackage,qt5-test))
+
